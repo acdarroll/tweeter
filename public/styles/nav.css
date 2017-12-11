@@ -1,0 +1,27 @@
+/*
+ * Styling for the Nav bar in the tweeter app
+ */
+
+ nav {
+  position: fixed;
+  height: 80px;
+  width: 100%;
+  top: 0;
+  background-color: #00a087;
+  color: #e8fdff;
+  padding-left: 2em;
+  padding-right: 2em;
+ }
+
+ #nav-bar .logo {
+  width: 80px;
+  height: 80px;
+  float: left;
+  margin-right: 10px;
+ }
+
+  #nav-bar .header {
+  float: left;
+  font-size: 200%;
+  line-height: 2.5;
+ }
