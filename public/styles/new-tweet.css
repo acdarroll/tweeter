@@ -23,3 +23,7 @@ form .counter {
   font-size: 0.8em;
   float: right;
 }
+
+.negative-counter {
+  color: red;
+}
