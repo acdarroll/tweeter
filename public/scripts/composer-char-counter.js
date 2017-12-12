@@ -6,7 +6,6 @@ $(function() {
 
   // });
   $('#new-tweet-input').keyup(function(){
-s
     let textLength = 140 - $(this).val().length;
     let counterElm = $(this).parent().find('.counter');
     counterElm.text(textLength);
