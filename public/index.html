@@ -20,6 +20,12 @@
     <!-- Form CSS -->
     <link rel="stylesheet" href="/styles/new-tweet.css" type="text/css" />
 
+    <!-- Tweet CSS -->
+    <link rel="stylesheet" href="/styles/tweets.css" type="text/css" />
+
+    <!-- Use Font Awesome to get icons for flag, retweet, and like -->
+    <script defer src="https://use.fontawesome.com/releases/v5.0.1/js/all.js"></script>
+
     <!-- External JS -->
     <script type="text/javascript" src="/vendor/jquery-2.2.3.min.js"></script>
 
@@ -43,18 +49,28 @@
       <section class="new-tweet">
         <h2>Compose Tweet</h2>
         <form action='/tweets' method='POST'>
-          <textarea id='new-tweet-input' name="text" placeholder="What are you humming about?"></textarea>
+          <textarea id='new-tweet-input' class='textarea' name="text" placeholder="What are you humming about?"></textarea>
           <input type="submit" value="Tweet">
           <span class="counter">140</span>
         </form>
       </section>
       <section id='tweets'>
-        <article>
-          <header>
+        <article class='tweet'>
+          <header class='tweet-header'>
+            <img class="user-avatar" src="/images/bird.png">
+            <h2 class='user-full-name'>Bill Fields</h2>
+            <span class='username'>@MrFields</span>
           </header>
-          <footer>
+          <section class='tweet-text'>This is a single tweet</section>
+          <footer class='tweet-footer'>10 days ago
+            <div class='hover-icons'>
+              <span class="fas fa-flag"></span>
+              <span class="fas fa-retweet"></span>
+              <span class="fas fa-heart"></span>
+            </div>
           </footer>
         </article>
+        <p>Other text</p>
       </section>
 
     </main>

@@ -1,0 +1,76 @@
+/*
+ * Styling for all tweets
+ */
+
+.tweet {
+  background-color: white;
+  border: 1px solid lightgrey;
+  border-radius: 5px;
+  margin: 2em;
+  opacity: 0.8;
+  z-index: 1;
+}
+
+.tweet:hover {
+  opacity: 1;
+}
+
+.tweet:hover .hover-icons{
+  visibility: visible;
+}
+
+.tweet-header::after {
+  content: '';
+  clear: both;
+  display: table;
+}
+
+.tweet-header {
+  background-color: #EFEFEF;
+  border-radius: 5px 5px 0 0;
+}
+
+.tweet-header::after {
+  content: '';
+  clear: both;
+  display: table;
+}
+
+.user-avatar {
+  border-radius: 8px;
+  border: 1px solid lightgrey;
+  margin: 5px;
+  float: left;
+  height: 50px;
+  width: 50px;
+  opacity: 0.7;
+}
+
+.user-full-name {
+  float: left;
+  line-height: 0;
+}
+
+.username {
+  float: right;
+  line-height: 2.5;
+  padding: 0.5em;
+  font-size: 0.8em;
+}
+
+.tweet-text {
+  margin: 2em 0.5em;
+}
+
+.tweet-footer {
+  border-top: 1px solid lightgrey;
+  padding: 0.3em;
+  font-size: 0.8em;
+}
+
+.hover-icons {
+  float: right;
+  text-align: right;
+  color: #55BBAA;
+  visibility: hidden;
+}
