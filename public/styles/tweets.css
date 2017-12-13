@@ -70,6 +70,7 @@
 
 .hover-icons {
   float: right;
+  padding-left: 4px;
   text-align: right;
   color: #55BBAA;
   visibility: hidden;

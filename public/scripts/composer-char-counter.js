@@ -1,10 +1,8 @@
-$(function() {
-  // console.log('composer works');
-  // $('#new-tweet-input').keyup(function(){
-  //   console.log('keyup');
-  //   console.log($(this).val());
+/*
+ *
+ */
 
-  // });
+$(function() {
   $('#new-tweet-input').keyup(function(){
     let textLength = 140 - $(this).val().length;
     let counterElm = $(this).parent().find('.counter');
