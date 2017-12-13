@@ -21,6 +21,14 @@ $(document).ready(function() {
     let daysAgo = calculateDays(data['created_at']);
 
     let $article = $('<article>').addClass('tweet');
+
+    // // DAVE
+    // let $header = $('<header>').addClass('tweet-header')
+    // let $
+
+    // $header.append([$headerImage, $headerTitle, $headerUsername]);
+    // // END DAVE
+
     $article.append('<header class="tweet-header"></header>')
             .append('<section class="tweet-text"></section>')
             .append('<footer class="tweet-footer"></footer>');
@@ -55,7 +63,7 @@ $(document).ready(function() {
     event.preventDefault();
     // $('.submit-error').remove();
     let formData = $(this).serialize();
-    let formText = formData.replace('text=', '');
+
     let $textVal = $(this).find('#new-tweet-input').val();
 
     if($textVal.length > 140 || $textVal.length == 0) {
