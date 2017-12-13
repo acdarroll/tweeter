@@ -1,9 +1,9 @@
 /*
- *
+ *  Event handler for updating the character counter
  */
 
 $(function() {
-  $('#new-tweet-input').keyup(function(){
+  $('#new-tweet-input').on('input', function(){
     let textLength = 140 - $(this).val().length;
     let counterElm = $(this).parent().find('.counter');
     counterElm.text(textLength);
