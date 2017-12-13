@@ -75,3 +75,8 @@
   color: #55BBAA;
   visibility: hidden;
 }
+
+.submit-error {
+  color: red;
+  margin: 0px;
+}
