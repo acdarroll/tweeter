@@ -60,6 +60,8 @@
 
 .tweet-text {
   margin: 2em 0.5em;
+  overflow: visible;
+  word-wrap: break-word;
 }
 
 .tweet-footer {
@@ -72,7 +74,7 @@
   float: right;
   padding-left: 4px;
   text-align: right;
-  color: #55BBAA;
+  color: #00a087;
   visibility: hidden;
 }
 

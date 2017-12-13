@@ -51,16 +51,18 @@ $(document).ready(function() {
     $('.submit-error').remove();
     let formData = $(this).serialize();
     let formText = formData.replace('text=', '');
+    let $textVal = $(this).find('#new-tweet-input').val();
 
-    if(formText.length > 140 || formText.length == 0) {
-      let errorMessage = formText.length > 140 ? 'Too many characters' : 'Please add characters to submit a tweet';
+    if($textVal.length > 140 || $textVal.length == 0) {
+      let errorMessage = $textVal.length > 140 ? 'Too many characters' : 'Please add characters to submit a tweet';
       $('.submit-tweet').append(`<p class='submit-error'>${errorMessage}</p>`);
     } else {
       $('.submit-tweet').trigger('reset');
       $.ajax({
         url: '/tweets',
         method: 'POST',
-        data: formData
+        data: formData,
+        beforeSend: function() {},
       }).then( function() {
         loadTweets();
       });

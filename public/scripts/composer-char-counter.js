@@ -4,6 +4,7 @@
 
 $(function() {
   $('#new-tweet-input').on('input', function(){
+    $('.submit-error').remove();
     let textLength = 140 - $(this).val().length;
     let counterElm = $(this).parent().find('.counter');
     counterElm.text(textLength);
