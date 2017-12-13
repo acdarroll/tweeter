@@ -6,7 +6,7 @@
   background-color: white;
   border: 1px solid lightgrey;
   border-radius: 5px;
-  margin: 2em;
+  margin: 0.5em 2em;
   opacity: 0.8;
   z-index: 1;
 }
@@ -15,7 +15,7 @@
   opacity: 1;
 }
 
-.tweet:hover .hover-icons{
+.tweet:hover .svg-inline--fa{
   visibility: visible;
 }
 
@@ -70,10 +70,9 @@
   font-size: 0.8em;
 }
 
-.hover-icons {
+div > .svg-inline--fa {
+  margin-right: 5px;
   float: right;
-  padding-left: 4px;
-  text-align: right;
   color: #00a087;
   visibility: hidden;
 }

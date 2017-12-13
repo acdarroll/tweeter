@@ -11,9 +11,14 @@ $(document).ready(function() {
     return div.innerHTML;
   };
 
-  const createTweetElement = function(data) {
+  const calculateDays = function(date) {
     let currentDate = new Date();
-    let daysAgo = Math.round((currentDate - data['created_at']) / (24 * 60 * 60 * 1000));
+    let daysAgo = Math.round((currentDate - date) / (24 * 60 * 60 * 1000));
+    return daysAgo;
+  }
+
+  const createTweetElement = function(data) {
+    let daysAgo = calculateDays(data['created_at']);
 
     let $article = $('<article>').addClass('tweet');
     $article.append('<header class="tweet-header"></header>')
@@ -48,7 +53,7 @@ $(document).ready(function() {
 
   $('.submit-tweet').submit(function(event) {
     event.preventDefault();
-    $('.submit-error').remove();
+    // $('.submit-error').remove();
     let formData = $(this).serialize();
     let formText = formData.replace('text=', '');
     let $textVal = $(this).find('#new-tweet-input').val();
@@ -62,7 +67,6 @@ $(document).ready(function() {
         url: '/tweets',
         method: 'POST',
         data: formData,
-        beforeSend: function() {},
       }).then( function() {
         loadTweets();
       });
@@ -75,6 +79,7 @@ $(document).ready(function() {
       method: 'GET',
       dataType: 'JSON'
     }).then( function(data) {
+      $('#tweets-container').empty();
       renderTweets(data);
     });
   };
