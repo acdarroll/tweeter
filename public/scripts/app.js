@@ -12,6 +12,9 @@ $(document).ready(function() {
   };
 
   const createTweetElement = function(data) {
+    let currentDate = new Date();
+    let daysAgo = Math.round((currentDate - data['created_at']) / (24 * 60 * 60 * 1000));
+
     let $article = $('<article>').addClass('tweet');
     $article.append('<header class="tweet-header"></header>')
             .append('<section class="tweet-text"></section>')
@@ -31,7 +34,7 @@ $(document).ready(function() {
     $('.hover-icons', $footer).append('<span class="fas fa-flag"></span>')
                               .append('<span class="fas fa-retweet"></span>')
                               .append('<span class="fas fa-heart"></span>');
-    $footer.append(escape(data['created_at']));
+    $footer.append(`${escape(daysAgo)} days ago`);
 
     return $article;
   };
@@ -39,7 +42,7 @@ $(document).ready(function() {
   const renderTweets = function(tweets) {
     tweets.forEach((tweet) => {
       let $tweet = createTweetElement(tweet);
-      $('#tweets-container').append($tweet);
+      $('#tweets-container').prepend($tweet);
     });
   };
 
@@ -48,16 +51,18 @@ $(document).ready(function() {
     $('.submit-error').remove();
     let formData = $(this).serialize();
     let formText = formData.replace('text=', '');
-    console.log(formText);
 
     if(formText.length > 140 || formText.length == 0) {
-      let errorMessage = formText > 140 ? 'Too many characters' : 'Please add characters to submit a tweet';
+      let errorMessage = formText.length > 140 ? 'Too many characters' : 'Please add characters to submit a tweet';
       $('.submit-tweet').append(`<p class='submit-error'>${errorMessage}</p>`);
     } else {
+      $('.submit-tweet').trigger('reset');
       $.ajax({
         url: '/tweets',
         method: 'POST',
         data: formData
+      }).then( function() {
+        loadTweets();
       });
     }
   });
@@ -67,7 +72,7 @@ $(document).ready(function() {
       url: '/tweets',
       method: 'GET',
       dataType: 'JSON'
-    }).then(function(data) {
+    }).then( function(data) {
       renderTweets(data);
     });
   };
