@@ -8,19 +8,20 @@ This repository is the starter code for the project: Students will fork and clon
 
 The tweeter page with the input area visible
 
-!["Screenshot of tweeter with a visible form area"]()
-
-The page with an invalid input error
-
-!["Page with an empty input error"]()
-
-Hover effects for tweets
-
-!["Hover effects for tweets"]()
+!["Screenshot of tweeter with a visible form area"](https://github.com/acdarroll/tweeter/blob/master/docs/visible-form.png?raw=true)
 
 Hidden form
 
-!["Hidden form"]()
+!["Hidden form"](https://github.com/acdarroll/tweeter/blob/master/docs/hidden-form.png?raw=true)
+
+The page with an invalid input error
+
+!["Page with an empty input error"](https://github.com/acdarroll/tweeter/blob/master/docs/overflow-error.png?raw=true)
+
+Hover effects for tweets
+
+!["Hover effects for tweets"](https://github.com/acdarroll/tweeter/blob/master/docs/tweet-hover.png?raw=true)
+
 
 ## Getting Started
 
@@ -29,7 +30,8 @@ Hidden form
 3. Start the web server using the `npm run local` command. The app will be served at <http://localhost:8080/>.
 4. Go to <http://localhost:8080/> in your browser.
 
-There will be no tweets when you run the server for the first time
+There will be no tweets when you run the server for the first time.
+Click the compose button to toggle the input form.
 
 ## Dependencies
 
