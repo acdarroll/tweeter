@@ -7,7 +7,6 @@
 }
 
 .new-tweet {
-  display: none;
   border: 1px solid lightgrey;
   border-radius: 5px;
   padding: 2px 10px;

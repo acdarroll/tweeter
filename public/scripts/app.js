@@ -61,14 +61,15 @@ $(document).ready(function() {
 
   $('.submit-tweet').submit(function(event) {
     event.preventDefault();
-    // $('.submit-error').remove();
     let formData = $(this).serialize();
 
     let $textVal = $(this).find('#new-tweet-input').val();
 
-    if($textVal.length > 140 || $textVal.length == 0) {
-      let errorMessage = $textVal.length > 140 ? 'Too many characters' : 'Please add characters to submit a tweet';
-      $('.submit-tweet').append(`<p class='submit-error'>${errorMessage}</p>`);
+    if($textVal.length > 140) {
+      console.log("Made it")
+    } else if($textVal.length == 0) {
+      let errorMessage = 'Please add characters to submit a tweet';
+      $('.submit-error').text(errorMessage);
     } else {
       $('.submit-tweet').trigger('reset');
       $.ajax({

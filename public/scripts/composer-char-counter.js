@@ -4,14 +4,15 @@
 
 $(function() {
   $('#new-tweet-input').on('input', function(){
-    $('.submit-error').remove();
     let textLength = 140 - $(this).val().length;
     let counterElm = $(this).parent().find('.counter');
     counterElm.text(textLength);
 
     if(textLength < 0) {
       counterElm.addClass('negative-counter');
+      $('.submit-error').text('Too many characters.');
     } else {
+      $('.submit-error').empty();
       counterElm.removeClass('negative-counter');
     }
   });

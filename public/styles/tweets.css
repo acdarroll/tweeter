@@ -78,6 +78,9 @@ div > .svg-inline--fa {
 }
 
 .submit-error {
+  text-align: center;
+  border-radius: 5px;
+  background-color: #FFDDDD;
   color: red;
-  margin: 0px;
+  margin: 0.5em;
 }
