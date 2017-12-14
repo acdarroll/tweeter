@@ -50,15 +50,19 @@
 
     <!-- Page-specific (main) content here -->
     <main class="container">
+
+      <!-- Container for the new tweet form -->
       <section class="new-tweet">
         <h2>Compose Tweet</h2>
         <form class="submit-tweet" action="/tweets" method="POST">
           <textarea id="new-tweet-input" class="textarea" name="text" placeholder="What are you humming about?"></textarea>
           <input class="tweet-button" type="submit" value="Tweet">
-          <span class="counter">140</span>
-          <p class="submit-error"></p>
+          <span class="counter">140</span>  <!-- Default counter starting point -->
+          <p class="submit-error"></p>      <!-- Element for displaying error messages -->
         </form>
       </section>
+
+      <!-- The container for displayed tweets -->
       <section id="tweets-container">
       </section>
 

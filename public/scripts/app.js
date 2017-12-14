@@ -3,7 +3,15 @@
  * jQuery is already loaded
  * Reminder: Use (and do all your DOM work in) jQuery's document ready function
  */
+
 $(document).ready(function() {
+
+  // Event handler for the compose tweet button
+  $('.compose-button').click(function(event) {
+    let $composeBox = $('.new-tweet');
+    $composeBox.find('#new-tweet-input').focus();   // Set focus on the textarea when clicked
+    $composeBox.slideToggle('slow');                // Toggle the animation to show/hide the form
+  });
 
   // Used to escape input from the user to avoid XSS attacks
   const escape = function(str) {
@@ -12,104 +20,95 @@ $(document).ready(function() {
     return div.innerHTML;
   };
 
-  const calculateDays = function(date) {
-    let currentDate = new Date();
-    let timePassed = Math.round((currentDate - date) / 1000);
-
-    let units = [
-      { conv: 1, type: 'second'},
-      { conv: 60, type: 'minute'},
-      { conv: 60 * 60, type: 'hour'},
-      { conv: 60 * 60 * 24, type: 'day'},
-      { conv: 60 * 60 * 24 * 7, type: 'week'},
-      { conv: 60 * 60 * 24 * 7 * 4, type: 'month'},
-      { conv: 60 * 60 * 24 * 7 * 4 * 12, type: 'year'},
-      { conv: 60 * 60 * 24 * 7 * 4 * 12 * 10, type: 'decade'},
+  // Calculate the appropriate time and units to display in the tweet footer
+  const formateElapsedTime = function(date) {
+    let timePassed = Date.now() - date;   // Subtract the saved date from the current date
+    let units = [                         // An array of all conversions
+      { conv: 1, type: 'milliseconds'},
+      { conv: 1000, type: 'second'},
+      { conv: 60000, type: 'minute'},
+      { conv: 3600000, type: 'hour'},
+      { conv: 86400000, type: 'day'},
+      { conv: 604800000, type: 'week'},
+      { conv: 2419200000, type: 'month'},
+      { conv: 29030400000, type: 'year'},
+      { conv: 290304000000, type: 'decade'},
     ];
 
     let conversion = units.find( (timeUnit, i) => {
-      return timePassed > timeUnit.conv && timePassed < units[i + 1].conv;
-    });
+      console.log("Time passed:", timePassed);
+      return timePassed > timeUnit.conv && timePassed < units[i + 1].conv;  // Return the entry before the one that
+    });                                                                     // results in a number less than 1
+
 
     let numberOfTimeUnits = Math.floor(timePassed / conversion.conv);
     let unitConversion = conversion.type;
 
     if(numberOfTimeUnits > 1) {
-      unitConversion = unitConversion + "s";
+      unitConversion = unitConversion + "s";        // Make the units plural if necessary
     }
 
     return { number: numberOfTimeUnits, units: unitConversion };
-  }
-
-  const inputErrorsPresent = function(inputText) {
-    if(inputText.length > 140) {
-      return true;
-    } else if(inputText.length == 0) {
-      let errorMessage = 'Please add characters to submit a tweet';
-      $('.submit-error').text(errorMessage);
-      return true;
-    } else {
-      return false;
-    }
-  }
+  };
 
   const createTweetElement = function(data) {
-    let daysAgo = calculateDays(data['created_at']);
-    let $article = $('<article>').addClass('tweet');
+    let daysAgo = formateElapsedTime(data['created_at']);
 
-    // // DAVE
-    // let $header = $('<header>').addClass('tweet-header')
-    // let $
-
-    // $header.append([$headerImage, $headerTitle, $headerUsername]);
-    // // END DAVE
-
-    $article.append('<header class="tweet-header"></header>')
-            .append('<section class="tweet-text"></section>')
-            .append('<footer class="tweet-footer"></footer>');
-
-    let $header = $('.tweet-header', $article);
-    $header.append(`<img class="user-avatar" src=${escape(data.user.avatars.small)}>`)
-           .append(`<h2 class="user-full-name">${escape(data.user.name)}</h2>`)
-           .append(`<span class="username">${escape(data.user.handle)}</span>`);
-
-    let $section = $('.tweet-text', $article).text(data.content.text);
-
-    let $footer = $('.tweet-footer', $article);
-
-    $footer.attr('date-created', data['created_at']);
-    $footer.append('<div class="hover-icons"></div>');
-    $('.hover-icons', $footer).append('<span class="fas fa-flag"></span>')
-                              .append('<span class="fas fa-retweet"></span>')
-                              .append('<span class="fas fa-heart"></span>');
-    $footer.append(`${escape(daysAgo.number)} ${escape(daysAgo.units)} ago`);
+    let $article =                                  // Create the new tweet element with template literal
+    $(`<article class="tweet">
+        <header class="tweet-header">
+          <img class="user-avatar" src=${escape(data.user.avatars.small)}>
+          <h2 class="user-full-name">${escape(data.user.name)}</h2>
+          <span class="username">${escape(data.user.handle)}</span>
+        </header>
+        <section class="tweet-text">${escape(data.content.text)}</section>
+        <footer class="tweet-footer">
+          <div class="hover-icons">${escape(daysAgo.number)} ${escape(daysAgo.units)} ago
+            <span class="fas fa-flag"></span>
+            <span class="fas fa-retweet"></span>
+            <span class="fas fa-heart"></span>
+          </div>
+        </footer>
+      </article>`);
 
     return $article;
   };
 
   // Appends all the tweets in an array to the DOM
   const renderTweets = function(tweets) {
-    tweets.forEach((tweet) => {
+    tweets.forEach( (tweet) => {
       let $tweet = createTweetElement(tweet);
       $('#tweets-container').prepend($tweet);
     });
+  };
+
+  const inputErrorsPresent = function(inputText) {  // Check the input string for length
+    if(inputText.length > 140) {
+      return true;
+    } else if(inputText.length == 0) {
+      let errorMessage = 'Please add characters to submit a tweet';
+      $('.submit-error').text(errorMessage);
+      return true;                                  // If string lnegth is 0 or > 140 then return true
+    } else {
+      return false;                                 // Otherise return false
+    }
   };
 
   // Event handler for submitting a new tweet
   $('.submit-tweet').submit(function(event) {
     event.preventDefault();                                 // Prevent the default POST method to /tweets
     let formData = $(this).serialize();
-    let $textVal = $(this).find('#new-tweet-input').val();  // Get the textarea value to validate the input
+    let textVal = $(this).find('#new-tweet-input').val();  // Get the textarea value to validate the input
 
-    if(!inputErrorsPresent($textVal)) {                     // Validate the input and display appropriate messages
-      $('.submit-tweet').trigger('reset');
-      $('#new-tweet-input').trigger('input');
+    if(!inputErrorsPresent(textVal)) {                     // Validate the input and display appropriate messages
+      $('.submit-tweet').trigger('reset');                  // Reset the value of the textarea
+      $('#new-tweet-input').trigger('input');               // Trigger a textarea input to update the counter
 
       $.ajax({
         url: '/tweets',
         method: 'POST',
         data: formData,
-      }).then( function() {
+      }).then( () => {
         loadTweets();           // Load the tweets again to display the new tweet
       });
     }
@@ -123,9 +122,8 @@ $(document).ready(function() {
       dataType: 'JSON'
     }).then( function(data) {
       $('#tweets-container').empty();   // Remove all existing tweet elements before appending those
-                                        // retrieved from the database.
-      renderTweets(data);               // Append the retrieved tweets to the DOM.
-    });
+      renderTweets(data);               // retrieved from the database.
+    });                                 // Append the retrieved tweets to the DOM.
   };
 
   // Load tweets on initial visit to page
