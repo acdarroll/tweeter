@@ -4,13 +4,16 @@
  * Reminder: Use (and do all your DOM work in) jQuery's document ready function
  */
 
-$(document).ready(function() {
+$(document).ready( () => {
 
   // Event handler for the compose tweet button
   $('.compose-button').click(function(event) {
-    let $composeBox = $('.new-tweet');
-    $composeBox.find('#new-tweet-input').focus();   // Set focus on the textarea when clicked
-    $composeBox.slideToggle('slow');                // Toggle the animation to show/hide the form
+    let $form = $('.new-tweet');
+    let $textarea = $form.find('#new-tweet-input');
+
+    $form.slideToggle('slow');                // Toggle the animation to show/hide the form
+    $textarea.focus();
+
   });
 
   // Used to escape input from the user to avoid XSS attacks
