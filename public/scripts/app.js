@@ -141,7 +141,9 @@ $(document).ready( () => {
         $likeButton.addClass('liked');
         likeData.likes += 1;
       }
-      $(this).data('tweet-like', likeData.likes)
+      $(this).data('tweet-like', likeData.likes);
+
+      console.log(`/tweets/${$(this).data('tweet-id')}`);
       $.ajax({
         url: `/tweets/${$(this).data('tweet-id')}`,
         method: 'POST',

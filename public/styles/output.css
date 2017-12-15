@@ -133,6 +133,9 @@ div > .svg-inline--fa {
   color: #00a087;
   visibility: hidden; }
 
+.liked {
+  color: red; }
+
 .submit-error {
   text-align: center;
   border-radius: 5px;
