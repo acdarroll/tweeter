@@ -2,15 +2,23 @@
  * Variables for use in sass sheets
  */
 
-
+// Nav related
 $nav-turquoise: #00a087
 $nav-white: #e8fdff
+$nav-height: 80px
+$translucent-white: rgba(255, 255, 255, 0.7)
+
+// Greys
 $grey-backgrounds: #EFEFEF
-$body-blue: #244751
 $default-grey: #eee
+
+// Default text colour
+$body-blue: #244751
+
+// Errors
 $error-red: #FFDDDD
 
-
+// Standard lightgrey border
 =grey-border
   border: 1px solid lightgrey
 
@@ -22,11 +30,13 @@ $error-red: #FFDDDD
   float: right
   margin-right: 1em
 
+// Fitting containers to their contents
 =clear-fix
   content: ''
   clear: both
   display: table
 
+// Wrapping text to stay within element
 =wrap-text
   overflow: visible
   word-wrap: break-word
