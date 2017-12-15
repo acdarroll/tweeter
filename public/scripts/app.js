@@ -26,7 +26,7 @@ $(document).ready( () => {
   // Calculate the appropriate time and units to display in the tweet footer
   const formateElapsedTime = function(timePassed) {
     let units = [                         // An array of all conversions
-      { conv: 1, type: 'milliseconds'},
+      { conv: 1, type: 'millisecond'},
       { conv: 1000, type: 'second'},
       { conv: 60000, type: 'minute'},
       { conv: 3600000, type: 'hour'},
@@ -44,9 +44,15 @@ $(document).ready( () => {
     let numberOfTimeUnits = Math.floor(timePassed / conversion.conv);
     let unitConversion = conversion.type;
 
+    if(unitConversion === 'millisecond') {          // If time elapsed is less than 1 second then say this instead
+      numberOfTimeUnits = '';
+      unitConversion = 'a moment';
+    }
+
     if(numberOfTimeUnits > 1) {
       unitConversion = unitConversion + "s";        // Make the units plural if necessary
     }
+
 
     return { number: numberOfTimeUnits, units: unitConversion };
   };
@@ -63,7 +69,9 @@ $(document).ready( () => {
         </header>
         <section class="tweet-text">${escape(data.content.text)}</section>
         <footer class="tweet-footer">
-          <div class="hover-icons">${escape(daysAgo.number)} ${escape(daysAgo.units)} ago
+          <div data-tweet-id="${data['_id']}" data-tweet-likes="${data.likes}"  class="hover-icons">
+            ${escape(daysAgo.number)} ${escape(daysAgo.units)} ago
+            <span>${data.likes}</span>
             <span class="fas fa-flag"></span>
             <span class="fas fa-retweet"></span>
             <span class="fas fa-heart"></span>
@@ -104,7 +112,6 @@ $(document).ready( () => {
       $('.submit-tweet').trigger('reset');                  // Reset the value of the textarea
       $('#new-tweet-input').trigger('input');               // Trigger a textarea input to update the counter
 
-      console.log("Ajax post:", Date.now());
       $.ajax({
         url: '/tweets',
         method: 'POST',
@@ -115,17 +122,48 @@ $(document).ready( () => {
     }
   });
 
+  const handleTweetLike = function(event) {
+    let $likeButton = $(this).find('.fa-heart').first().children();
+    let button = $likeButton[0];
+    let likesCount = parseInt($(this).data('tweet-like'));
+    if(!likesCount) {
+      likesCount = 0;
+    }
+
+    let likeData = { id: $(this).data('tweet-id'), likes: likesCount };
+
+
+    if(event.target === button) {
+      if($likeButton.hasClass('liked')) {
+        $likeButton.removeClass('liked');
+        likeData.likes -= 1;
+      } else {
+        $likeButton.addClass('liked');
+        likeData.likes += 1;
+      }
+      $(this).data('tweet-like', likeData.likes)
+      $.ajax({
+        url: `/tweets/${$(this).data('tweet-id')}`,
+        method: 'POST',
+        data: $.param(likeData)
+      });
+    }
+
+  };
+
   // Requests tweets from server and then calls the renderTweets function to display them
   const loadTweets = function() {
-    console.log("Ajax get:", Date.now());
     $.ajax({
       url: '/tweets',
       method: 'GET',
       dataType: 'JSON'
-    }).then( function(data) {
+    }).then( (data) => {
       $('#tweets-container').empty();   // Remove all existing tweet elements before appending those
       renderTweets(data);               // retrieved from the database.
+    }).then( () => {
+      $('.hover-icons').click(handleTweetLike);
     });                                 // Append the retrieved tweets to the DOM.
+
   };
 
   // Load tweets on initial visit to page
