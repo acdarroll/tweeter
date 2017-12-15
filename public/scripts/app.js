@@ -24,8 +24,7 @@ $(document).ready( () => {
   };
 
   // Calculate the appropriate time and units to display in the tweet footer
-  const formateElapsedTime = function(date) {
-    let timePassed = Date.now() - date;   // Subtract the saved date from the current date
+  const formateElapsedTime = function(timePassed) {
     let units = [                         // An array of all conversions
       { conv: 1, type: 'milliseconds'},
       { conv: 1000, type: 'second'},
@@ -42,7 +41,6 @@ $(document).ready( () => {
       return timePassed > timeUnit.conv && timePassed < units[i + 1].conv;  // Return the entry before the one that
     });                                                                     // results in a number less than 1
 
-
     let numberOfTimeUnits = Math.floor(timePassed / conversion.conv);
     let unitConversion = conversion.type;
 
@@ -54,7 +52,7 @@ $(document).ready( () => {
   };
 
   const createTweetElement = function(data) {
-    let daysAgo = formateElapsedTime(data['created_at']);
+    let daysAgo = formateElapsedTime(data.interval);
 
     let $article =                                  // Create the new tweet element with template literal
     $(`<article class="tweet">

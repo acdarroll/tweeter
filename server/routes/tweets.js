@@ -5,6 +5,7 @@ const userHelper    = require("../lib/util/user-helper")
 const express       = require('express');
 const tweetsRoutes  = express.Router();
 
+
 module.exports = function(DataHelpers) {
 
   tweetsRoutes.get("/", function(req, res) {
@@ -12,7 +13,13 @@ module.exports = function(DataHelpers) {
       if (err) {
         res.status(500).json({ error: err.message });
       } else {
-        console.log("Get time:", Date.now());
+        //
+        let withInterval = tweets.map( (user) => {        // Calculate the elapsed time server side to avoid
+          let userWithInterval = user;                    // inconsistencies
+          user.interval = Date.now() - user.created_at;
+          return userWithInterval;
+        });
+        //
         res.json(tweets);
       }
     });
