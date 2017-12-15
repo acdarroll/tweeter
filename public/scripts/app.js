@@ -60,6 +60,10 @@ $(document).ready( () => {
   const createTweetElement = function(data) {
     let daysAgo = formateElapsedTime(data.interval);
 
+    if(!data.likes) {                                // Handle tweets that don't have the likes property yet
+      data.likes = 0;
+    }
+
     let $article =                                  // Create the new tweet element with template literal
     $(`<article class="tweet">
         <header class="tweet-header">
@@ -71,13 +75,18 @@ $(document).ready( () => {
         <footer class="tweet-footer">
           <div data-tweet-id="${data['_id']}" data-tweet-likes="${data.likes}"  class="hover-icons">
             ${escape(daysAgo.number)} ${escape(daysAgo.units)} ago
-            <span>${data.likes}</span>
+            <span class="likes">${data.likes}</span>
             <span class="fas fa-flag"></span>
             <span class="fas fa-retweet"></span>
             <span class="fas fa-heart"></span>
           </div>
         </footer>
       </article>`);
+
+    if (parseInt(data.likes) > 0) {
+      let icons = $article.find('[data-tweet-id]');
+      icons.addClass('liked');
+    }
 
     return $article;
   };
@@ -123,27 +132,30 @@ $(document).ready( () => {
   });
 
   const handleTweetLike = function(event) {
+
     let $likeButton = $(this).find('.fa-heart').first().children();
-    let button = $likeButton[0];
-    let likesCount = parseInt($(this).data('tweet-like'));
+    let path = $likeButton[0];
+    let likesCount = parseInt($(this).data('tweet-likes'));
+    console.log("count;", likesCount);
+
     if(!likesCount) {
       likesCount = 0;
     }
 
     let likeData = { id: $(this).data('tweet-id'), likes: likesCount };
+    let $likesCounter = $(this).find('.likes');
 
-
-    if(event.target === button) {
-      if($likeButton.hasClass('liked')) {
-        $likeButton.removeClass('liked');
+    if(event.target === path) {
+      if($(this).hasClass('liked')) {
+        $(this).removeClass('liked');
         likeData.likes -= 1;
       } else {
-        $likeButton.addClass('liked');
+        $(this).addClass('liked');
         likeData.likes += 1;
       }
-      $(this).data('tweet-like', likeData.likes);
+      $(this).data('tweet-likes', likeData.likes);
+      $likesCounter.text(likeData.likes);
 
-      console.log(`/tweets/${$(this).data('tweet-id')}`);
       $.ajax({
         url: `/tweets/${$(this).data('tweet-id')}`,
         method: 'POST',

@@ -80,7 +80,7 @@ nav {
 .tweet:hover {
   opacity: 1; }
 
-.tweet:hover .svg-inline--fa {
+.tweet:hover .svg-inline--fa, .tweet:hover .likes {
   visibility: visible; }
 
 .tweet-header::after {
@@ -126,14 +126,14 @@ nav {
   padding: 0.3em;
   font-size: 0.8em; }
 
-div > .svg-inline--fa {
+div .svg-inline--fa, div .likes {
   margin-right: 5px;
   float: right;
   margin-right: 1em;
   color: #00a087;
   visibility: hidden; }
 
-.liked {
+div.liked .fa-heart {
   color: red; }
 
 .submit-error {
