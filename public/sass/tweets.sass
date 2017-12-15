@@ -1,0 +1,80 @@
+/*
+ * Styling for all tweets
+ */
+
+@import 'variables'
+
+.tweet
+  background-color: white
+  border: 1px solid lightgrey
+  border-radius: 5px
+  margin: 0.5em 2em
+  opacity: 0.8
+  z-index: 1
+
+
+.tweet:hover
+  opacity: 1
+
+
+.tweet:hover .svg-inline--fa
+  visibility: visible
+
+
+.tweet-header::after
+  +clear-fix
+
+.tweet-header
+  background-color: #EFEFEF
+  border-radius: 5px 5px 0 0
+
+
+.tweet-header::after
+  +clear-fix
+
+.user-avatar
+  float: left
+  +grey-border
+  border-radius: 8px
+  margin: 5px
+  height: 50px
+  width: 50px
+  opacity: 0.7
+
+
+.user-full-name
+  float: left
+  line-height: 0
+
+
+.username
+  float: right
+  line-height: 2.5
+  padding: 0.5em
+  font-size: 0.8em
+
+
+.tweet-text
+  margin: 2em 0.5em
+  +wrap-text
+
+
+.tweet-footer
+  border-top: 1px solid lightgrey
+  padding: 0.3em
+  font-size: 0.8em
+
+
+div > .svg-inline--fa
+  margin-right: 5px
+  +float-right
+  color: $nav-turquoise
+  visibility: hidden
+
+
+.submit-error
+  text-align: center
+  border-radius: 5px
+  background-color: $error-red
+  color: red
+  margin: 0.5em

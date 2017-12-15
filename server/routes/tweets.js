@@ -12,6 +12,7 @@ module.exports = function(DataHelpers) {
       if (err) {
         res.status(500).json({ error: err.message });
       } else {
+        console.log("Get time:", Date.now());
         res.json(tweets);
       }
     });
@@ -31,6 +32,7 @@ module.exports = function(DataHelpers) {
       },
       created_at: Date.now()
     };
+    console.log("Post time:", Date.now());
 
     DataHelpers.saveTweet(tweet, (err) => {
       if (err) {

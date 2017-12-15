@@ -39,7 +39,6 @@ $(document).ready( () => {
     ];
 
     let conversion = units.find( (timeUnit, i) => {
-      console.log("Time passed:", timePassed);
       return timePassed > timeUnit.conv && timePassed < units[i + 1].conv;  // Return the entry before the one that
     });                                                                     // results in a number less than 1
 
@@ -107,6 +106,7 @@ $(document).ready( () => {
       $('.submit-tweet').trigger('reset');                  // Reset the value of the textarea
       $('#new-tweet-input').trigger('input');               // Trigger a textarea input to update the counter
 
+      console.log("Ajax post:", Date.now());
       $.ajax({
         url: '/tweets',
         method: 'POST',
@@ -119,6 +119,7 @@ $(document).ready( () => {
 
   // Requests tweets from server and then calls the renderTweets function to display them
   const loadTweets = function() {
+    console.log("Ajax get:", Date.now());
     $.ajax({
       url: '/tweets',
       method: 'GET',
