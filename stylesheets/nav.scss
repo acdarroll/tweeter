@@ -1,0 +1,51 @@
+/*
+ * Styling for the Nav bar in the tweeter app
+ */
+
+// Nav bar banner fixed to top of page
+nav {
+  position: fixed;
+  height: $nav-height;
+  width: 100%;
+  top: 0;
+  padding-left: 2em;
+  background-color: $nav-background;
+  color: $nav-white;
+  z-index: 1;
+  box-shadow: 0 4px 4px -2px #005555;
+
+  // Tweeter logo
+  img {
+    width: $nav-height;
+    height: $nav-height;
+    float: left;
+  }
+
+  // "Tweeter" header
+  p {
+    font-size: 200%;
+    line-height: 0.5em;
+    float: left;
+  }
+
+  // Compose button and its hover state
+  button {
+    height: $nav-height - 20;
+    margin: 10px 20px;
+    border-radius: 10px;
+    border: 1px solid black;
+    background-color: $translucent-white;
+    color: $nav-background;
+    float: right;
+  }
+
+  button:hover {
+    background-color: white;
+    color: black;
+  }
+}
+
+
+
+
+

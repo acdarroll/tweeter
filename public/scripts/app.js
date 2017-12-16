@@ -68,12 +68,12 @@ $(document).ready( () => {
     $(`<article class="tweet">
         <header class="tweet-header">
           <img class="user-avatar" src=${escape(data.user.avatars.small)}>
-          <h2 class="user-full-name">${escape(data.user.name)}</h2>
+          <p class="user-full-name">${escape(data.user.name)}</p>
           <span class="username">${escape(data.user.handle)}</span>
         </header>
         <section class="tweet-text">${escape(data.content.text)}</section>
         <footer class="tweet-footer">
-          <div data-tweet-id="${data['_id']}" data-tweet-likes="${data.likes}"  class="hover-icons">
+          <div data-tweet-id="${data['_id']}" class="hover-icons">
             ${escape(daysAgo.number)} ${escape(daysAgo.units)} ago
             <span class="likes">${data.likes}</span>
             <span class="fas fa-flag"></span>
@@ -133,19 +133,14 @@ $(document).ready( () => {
 
   const handleTweetLike = function(event) {
 
-    let $likeButton = $(this).find('.fa-heart').first().children();
-    let path = $likeButton[0];
-    let likesCount = parseInt($(this).data('tweet-likes'));
-    console.log("count;", likesCount);
+    let heartButton = $(this).find('.fa-heart').first().children()[0];
+    let displayedLikes = parseInt($(this).find('.likes').text());
+    let likeData = {
+      id: $(this).data('tweet-id'),
+      likes: displayedLikes
+    };
 
-    if(!likesCount) {
-      likesCount = 0;
-    }
-
-    let likeData = { id: $(this).data('tweet-id'), likes: likesCount };
-    let $likesCounter = $(this).find('.likes');
-
-    if(event.target === path) {
+    if(event.target === heartButton) {
       if($(this).hasClass('liked')) {
         $(this).removeClass('liked');
         likeData.likes -= 1;
@@ -153,8 +148,7 @@ $(document).ready( () => {
         $(this).addClass('liked');
         likeData.likes += 1;
       }
-      $(this).data('tweet-likes', likeData.likes);
-      $likesCounter.text(likeData.likes);
+      $('.likes', $(this)).text(likeData.likes);
 
       $.ajax({
         url: `/tweets/${$(this).data('tweet-id')}`,

@@ -11,8 +11,8 @@
     <!-- Use with following rules: font-family: 'Roboto', sans-serif; -->
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,700,700i" rel="stylesheet">
 
-    <!-- SASS compiled CSS -->
-    <link rel="stylesheet" href="/styles/output.css" type="text/css" />
+    <!-- SASS rendered CSS -->
+    <link href="/styles/layout.css" rel="stylesheet" type="text/css">
 
     <!-- Use Font Awesome to get icons for flag, retweet, and like -->
     <script defer src="https://use.fontawesome.com/releases/v5.0.1/js/all.js"></script>
@@ -31,8 +31,8 @@
 
     <!-- Top nav bar (fixed) -->
     <nav id="nav-bar">
-      <img class="logo" src="/images/bird.png">
-      <span class="header">Tweeter</span>
+      <img src="/images/bird.png">
+      <p>Tweeter</p>
       <button class='compose-button'><span class="fas fa-edit"></span> Compose</button>
     </nav>
 
@@ -41,7 +41,7 @@
 
       <!-- Container for the new tweet form -->
       <section class="new-tweet">
-        <h2>Compose Tweet</h2>
+        <p>Compose Tweet</p>
         <form class="submit-tweet" action="/tweets" method="POST">
           <textarea id="new-tweet-input" class="textarea" name="text" placeholder="What are you humming about?"></textarea>
           <input class="tweet-button" type="submit" value="Tweet">
@@ -52,8 +52,12 @@
 
       <!-- The container for displayed tweets -->
       <section id="tweets-container">
-      </section>
 
+      </section>
+      <p>No more tweets</p>
     </main>
+    <footer>
+      <p>Tweeter App, 2017
+    </footer>
   </body>
 </html>

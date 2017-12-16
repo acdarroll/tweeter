@@ -1,0 +1,40 @@
+/*
+ * Variables for use in sass sheets
+ */
+
+// Nav related
+$nav-background: #00a087;
+$nav-white: #e8fdff;
+$nav-height: 80px;
+$translucent-white: rgba(255, 255, 255, 0.7);
+
+// Greys
+$grey-backgrounds: #EFEFEF;
+$default-grey: #eee;
+$grey-border: 1px solid lightgrey;
+
+// Default text colour
+$body-blue: #244751;
+
+// Errors
+$error-red: #FFDDDD;
+
+// Helps push the footer to the bottom of the page
+@mixin bottom-footer {
+  height: 100%;
+  margin: 0;
+}
+
+// Fitting containers to their contents
+@mixin clear-fix {
+  content: '';
+  clear: both;
+  display: table;
+}
+
+// Wrapping text to stay within element
+@mixin wrap-text {
+  overflow: visible;
+  word-wrap: break-word;
+}
+

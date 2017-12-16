@@ -2,17 +2,28 @@
 
 // Basic express setup:
 
-const PORT          = 8080;
-const express       = require("express");
-const bodyParser    = require("body-parser");
-const app           = express();
-const MongoClient   = require("mongodb").MongoClient;
+const PORT            = 8080;
+const express         = require("express");
+const bodyParser      = require("body-parser");
+const app             = express();
+const MongoClient     = require("mongodb").MongoClient;
+const sassMiddleware  = require("node-sass-middleware");
+
+// Sass middleware to render CSS to the styles folder
+app.use(sassMiddleware({
+    src: 'stylesheets',
+    dest: 'public/styles',
+    prefix: '/styles'  // Where prefix is at <link rel="stylesheets" href="prefix/style.css"/>
+}));
+
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
+// Mongo connection URI
 const MONGODB_URI = "mongodb://localhost:27017/tweeter";
 
+// Connect to MongoDB tweeter db
 MongoClient.connect(MONGODB_URI, (err, db) => {
   if(err) throw err;
 

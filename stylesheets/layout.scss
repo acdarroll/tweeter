@@ -1,0 +1,67 @@
+/*
+ * http://www.paulirish.com/2012/box-sizing-border-box-ftw/
+ * https://css-tricks.com/international-box-sizing-awareness-day/
+ * Do not modify these two selectors, please
+ */
+
+@import 'variables';
+@import 'nav';
+@import 'new-tweet';
+@import 'tweets';
+
+html {
+  box-sizing: border-box;
+  @include bottom-footer;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+/*
+ * Global layout stuff
+ */
+
+body {
+  @include bottom-footer;
+  color: #244751;
+  background-color: #eee;
+  font-family: 'Roboto', sans-serif;
+  display: flex;            // new
+  flex-direction: column;
+
+  > footer {
+    margin-top: auto;
+    height: 80px;
+    background-color: $nav-background;
+
+    p {
+      float: right;
+      color: white;
+      margin: 1.5em;
+    }
+  }
+}
+
+/*
+ * Additional CSS can be defined below or in other CSS files, as per instructions
+ */
+
+main {
+  width: 60%;
+  margin: $nav-height auto 0 auto;
+  background-color: white;
+  padding-bottom: 50px;
+}
+
+@media (max-width: 700px) {
+  main {
+    width: 420px;
+  }
+}
+
+@media (min-width: 700px) {
+  main {
+    width: 500px;
+  }
+}
