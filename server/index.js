@@ -8,6 +8,7 @@ const bodyParser      = require("body-parser");
 const app             = express();
 const MongoClient     = require("mongodb").MongoClient;
 const sassMiddleware  = require("node-sass-middleware");
+const dotenv          = require("dotenv").config();
 
 // Sass middleware to render CSS to the styles folder
 app.use(sassMiddleware({
@@ -21,7 +22,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
 // Mongo connection URI
-const MONGODB_URI = "mongodb://localhost:27017/tweeter";
+const MONGODB_URI = process.env.MONGODB_URI;
 
 // Connect to MongoDB tweeter db
 MongoClient.connect(MONGODB_URI, (err, db) => {
