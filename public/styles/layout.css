@@ -139,6 +139,15 @@ body {
   font-family: 'Roboto', sans-serif;
   display: flex;
   flex-direction: column; }
+  body > div {
+    margin-top: 100px; }
+    body > div input {
+      border-radius: 10px;
+      border: 1px solid grey;
+      background-color: white;
+      padding: 8px; }
+    body > div [type=submit] {
+      background-color: #eee; }
   body > footer {
     margin-top: auto;
     height: 80px;

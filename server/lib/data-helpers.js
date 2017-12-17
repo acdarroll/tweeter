@@ -1,7 +1,8 @@
 "use strict";
 
 // Require MongoDB to use the ObjectId function for updates
-const ObjectId = require("mongodb").ObjectId;
+const ObjectId  = require("mongodb").ObjectId;
+const bcrypt    = require("bcrypt");
 
 // Defines helper functions for saving and getting tweets, using the database `db`
 module.exports = function makeDataHelpers(db) {
@@ -13,12 +14,21 @@ module.exports = function makeDataHelpers(db) {
         callback(null, true);
     },
 
-    // Get all tweets in `db`, sorted by newest first
-    getTweets: function(callback) {
-        const sortNewestFirst = (a, b) => a.created_at - b.created_at;
-        db.collection('tweets').find().toArray((err, tweets) => {
-          callback(null, tweets.sort(sortNewestFirst));
-        });
+    getUser: function(userId) {
+      return db.collection('users').find({ _id: ObjectId(userId) }).toArray();
+    },
+
+    // Get all tweets in `db`
+    getTweets: function() {
+        return db.collection('tweets').find().toArray();
+        // .then((result) => {
+          // let tweets = result.toArray();
+          // return tweets.sort(sortNewestFirst);
+        // });
+        // (err, tweets) => {
+          // console.log(tweets);
+          // cb(null, tweets.sort(sortNewestFirst));
+        // });
     },
 
     // Save the updated likes to the database
@@ -31,20 +41,21 @@ module.exports = function makeDataHelpers(db) {
     },
 
     registerUser: function(user, cb) {
-      console.log("user in data helper:", user);
-      db.collection('users').find({$or: [{ email: user.email }, { handle: user.handle }]}).toArray((err, data) => {
-          console.log("Db data:", data);
-          if(data) {
-            cb(null, false);
-          } else {
-            db.collection('users').insert(user);
-            cb(null, true);
-          }
-        });
+      db.collection('users').find({
+        $or: [{ email: user.email }, { handle: user.handle }]
+      }).toArray((err, data) => {
+        console.log("Register data:", data);
+        if(data.length > 0) {
+          cb(null, false);
+        } else {
+          db.collection('users').insert(user);
+          cb(null, true);
+        }
+      });
     },
 
-    loginUser: function() {
-
+    loginUser: function(user, cb) {
+      return db.collection('users').find({ email: user.email }).toArray();
     }
   };
 };

@@ -5,24 +5,44 @@ const userHelper    = require("../lib/util/user-helper");
 const express       = require('express');
 const tweetsRoutes  = express.Router();
 
+const timeDifference = function(tweets) {
+  let withInterval = tweets.map( (user) => {        // Calculate the elapsed time server side to avoid
+    let userWithInterval = user;                    // inconsistencies
+    user.interval = Date.now() - user.created_at;
+    return userWithInterval;
+  });
+};
 
 module.exports = function(DataHelpers) {
 
   tweetsRoutes.get("/", (req, res) => {
-    DataHelpers.getTweets((err, tweets) => {
-      if (err) {
-        res.status(500).json({ error: err.message });
+    let { userId } = req.session;
+    let tweets;
+
+    const sortNewestFirst = (a, b) => a.created_at - b.created_at;
+    DataHelpers.getTweets().then((result) => {
+      tweets = result.sort(sortNewestFirst);
+      return DataHelpers.getUser(userId);
+    }).then((user) => {
+      if(user.length > 0) {
+        console.log("Still logged in");
       } else {
-        //
-        let withInterval = tweets.map( (user) => {        // Calculate the elapsed time server side to avoid
-          let userWithInterval = user;                    // inconsistencies
-          user.interval = Date.now() - user.created_at;
-          return userWithInterval;
-        });
-        //
-        res.json(tweets);
+        console.log("Visitor needs to login");
       }
+      timeDifference(tweets);
+      res.json(tweets);
+    }).catch((err) => {
+      res.status(500).json({ error: err.message });
     });
+
+    // });
+    // (err, tweets) => {
+      // if (err) {
+        // res.status(500).json({ error: err.message });
+      // } else {
+        // timeDifference(tweets);
+
+      // }
   });
 
   // Like handling

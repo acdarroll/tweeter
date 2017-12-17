@@ -75,10 +75,10 @@ $(document).ready( () => {
         <footer class="tweet-footer">
           <div data-tweet-id="${data['_id']}" class="hover-icons">
             ${escape(daysAgo.number)} ${escape(daysAgo.units)} ago
-            <span class="likes">${data.likes}</span>
             <span class="fas fa-flag"></span>
             <span class="fas fa-retweet"></span>
             <span class="fas fa-heart"></span>
+            <span class="likes">${data.likes}</span>
           </div>
         </footer>
       </article>`);

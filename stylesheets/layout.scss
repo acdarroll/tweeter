@@ -30,6 +30,20 @@ body {
   display: flex;            // new
   flex-direction: column;
 
+  > div {
+    margin-top: 100px;
+    input {
+      border-radius: 10px;
+      border: 1px solid grey;
+      background-color: white;
+      padding: 8px;
+    }
+
+    [type=submit] {
+      background-color: $default-grey;
+    }
+  }
+
   > footer {
     margin-top: auto;
     height: 80px;
