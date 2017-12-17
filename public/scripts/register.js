@@ -4,7 +4,7 @@
 
 $(document).ready( () => {
 
-  $('.register').submit( function(event) {
+  const registerUser = function(event) {
     event.preventDefault();
     let formData = $(this).serialize();
     console.log(formData);
@@ -16,9 +16,9 @@ $(document).ready( () => {
     }).then( () => {
       // What to do with return
     });
-  });
+  };
 
-  $('.login').submit( function(event) {
+  const loginUser = function(event) {
     event.preventDefault();
     let formData = $(this).serialize();
     console.log($(this));
@@ -34,9 +34,9 @@ $(document).ready( () => {
         $('.nav-login, .nav-register, .logout').toggle();
       }
     });
-  });
+  };
 
-  $('.logout').submit( function(event) {
+  const logoutUser = function(event) {
     event.preventDefault();
 
     $.ajax({
@@ -46,5 +46,28 @@ $(document).ready( () => {
       $(this).toggle();
       $('.nav-login, .nav-register').toggle();
     });
+  };
+
+  $('.nav-login, .nav-register').click( function(event) {
+    console.log("Target:", event);
+    let $targetForm, $otherForm;
+    if($(this).text() === 'Login') {
+      $targetForm = $('.login');
+      $otherForm = $('.register');
+    } else {
+      $targetForm = $('.register');
+      $otherForm = $('.login');
+    }
+    if($otherForm.css('display') !== "none") {
+      $otherForm.toggle();
+    }
+    $targetForm.toggle();
   });
+
+  $('.register').submit(registerUser);
+
+  $('.login').submit(loginUser);
+
+  $('.logout').submit(logoutUser);
+
 });

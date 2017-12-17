@@ -142,9 +142,10 @@ body {
   display: flex;
   flex-direction: column; }
   body > div {
-    margin-top: 100px;
-    display: none;
+    margin-top: 80px;
     background-color: lightgrey; }
+    body > div form {
+      display: none; }
     body > div input {
       border-radius: 5px;
       border: 1px solid grey;
@@ -168,7 +169,7 @@ body {
  */
 main {
   width: 60%;
-  margin: 80px auto 0 auto;
+  margin: 0 auto 0 auto;
   background-color: white;
   padding-bottom: 50px; }
 

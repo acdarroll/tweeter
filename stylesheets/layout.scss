@@ -31,9 +31,12 @@ body {
   flex-direction: column;
 
   > div {
-    margin-top: 100px;
-    display: none;
+    margin-top: $nav-height;
     background-color: lightgrey;
+
+    form {
+      display: none;
+    }
 
     input {
       border-radius: 5px;
@@ -70,7 +73,7 @@ body {
 
 main {
   width: 60%;
-  margin: $nav-height auto 0 auto;
+  margin: 0 auto 0 auto;
   background-color: white;
   padding-bottom: 50px;
 }
