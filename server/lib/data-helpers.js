@@ -31,9 +31,10 @@ module.exports = function makeDataHelpers(db) {
     },
 
     registerUser: function(user, cb) {
-      db.collection('users').find({$or: [{ email: user.email }, { handle: user.handle }]}).toArray()
-        .then( (err, data) => {
-          if(data.length > 0) {
+      console.log("user in data helper:", user);
+      db.collection('users').find({$or: [{ email: user.email }, { handle: user.handle }]}).toArray((err, data) => {
+          console.log("Db data:", data);
+          if(data) {
             cb(null, false);
           } else {
             db.collection('users').insert(user);
