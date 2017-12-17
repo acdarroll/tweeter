@@ -24,13 +24,15 @@ module.exports = function(DataHelpers) {
       tweets = result.sort(sortNewestFirst);
       return DataHelpers.getUser(userId);
     }).then((user) => {
+      timeDifference(tweets);
+      let userAndTweets = { user, tweets };
       if(user.length > 0) {
         console.log("Still logged in");
+        res.json(userAndTweets);
       } else {
         console.log("Visitor needs to login");
+        res.json(userAndTweets);
       }
-      timeDifference(tweets);
-      res.json(tweets);
     }).catch((err) => {
       res.status(500).json({ error: err.message });
     });

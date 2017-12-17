@@ -32,8 +32,11 @@ body {
 
   > div {
     margin-top: 100px;
+    display: none;
+    background-color: lightgrey;
+
     input {
-      border-radius: 10px;
+      border-radius: 5px;
       border: 1px solid grey;
       background-color: white;
       padding: 8px;
@@ -41,6 +44,10 @@ body {
 
     [type=submit] {
       background-color: $default-grey;
+    }
+
+    [type=submit]:hover {
+      background-color: lightgrey;
     }
   }
 

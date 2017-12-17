@@ -34,6 +34,8 @@ nav {
     color: #00a087; }
   nav button:hover, nav input:hover {
     color: black; }
+  nav form {
+    display: none; }
 
 /*
  * Styling for the form submission
@@ -140,14 +142,18 @@ body {
   display: flex;
   flex-direction: column; }
   body > div {
-    margin-top: 100px; }
+    margin-top: 100px;
+    display: none;
+    background-color: lightgrey; }
     body > div input {
-      border-radius: 10px;
+      border-radius: 5px;
       border: 1px solid grey;
       background-color: white;
       padding: 8px; }
     body > div [type=submit] {
       background-color: #eee; }
+    body > div [type=submit]:hover {
+      background-color: lightgrey; }
   body > footer {
     margin-top: auto;
     height: 80px;

@@ -31,18 +31,20 @@
   </head>
 
   <body>
-
     <!-- Top nav bar (fixed) -->
     <nav id="nav-bar">
       <img src="/images/bird.png">
       <p>Tweeter</p>
+      <form class="logout" action="/users/logout" method="POST">
+        <input type="submit" name="logout" value="Logout">
+      </form>
       <button class='nav-login'>Login</button>
       <button class='nav-register'>Register</button>
       <button class='compose-button'><span class="fas fa-edit"></span> Compose</button>
     </nav>
 
     <!-- Register and login form -->
-    <div>
+    <div class="user-requests">
       <form class="register" action="/users/register" method="POST">
         <input type="text" name="firstName" value="And" placeholder="First">
         <input type="text" name="lastName" value="Car" placeholder="Last">
@@ -56,10 +58,6 @@
         <input type="email" name="email" value="ajc@gmail.com" placeholder="Email">
         <input type="password" name="password" placeholder="Password">
         <input type="submit" name="login" value="Login">
-      </form>
-
-      <form class="logout" action="/users/logout" method="POST">
-        <input type="submit" name="logout" value="Logout">
       </form>
     </div>
 

@@ -10,7 +10,7 @@ module.exports = function(DataHelpers) {
   usersRoutes.post("/login", (req, res) => {
     let { email, password } = req.body;
     if(!email || !password) {
-      return false;
+      res.status(404).send();
     } else {
       let user = { email, password };
       DataHelpers.loginUser(user).then((result) => {
@@ -22,7 +22,7 @@ module.exports = function(DataHelpers) {
         } else {
           console.log("Failed to log in");
           // Handle success case of logging in
-          res.status(201).send();
+          res.status(302).send();
         }
       }).catch((err) => {
         res.status(500).json({ error: err.message });

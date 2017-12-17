@@ -166,11 +166,14 @@ $(document).ready( () => {
       method: 'GET',
       dataType: 'JSON'
     }).then( (data) => {
+      console.log(data);
       $('#tweets-container').empty();   // Remove all existing tweet elements before appending those
-      renderTweets(data);               // retrieved from the database.
-    }).then( () => {
+      renderTweets(data.tweets);        // retrieved from the database.
       $('.hover-icons').click(handleTweetLike);
-    });                                 // Append the retrieved tweets to the DOM.
+      if(data.user['_id']) {
+        $('.nav-login, .nav-register, .nav-logout').toggle();
+      }
+    });
 
   };
 

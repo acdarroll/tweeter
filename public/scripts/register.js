@@ -4,7 +4,7 @@
 
 $(document).ready( () => {
 
-  $('.register').submit(function(event) {
+  $('.register').submit( function(event) {
     event.preventDefault();
     let formData = $(this).serialize();
     console.log(formData);
@@ -18,28 +18,33 @@ $(document).ready( () => {
     });
   });
 
-  $('.login').submit(function(event) {
+  $('.login').submit( function(event) {
     event.preventDefault();
     let formData = $(this).serialize();
-    console.log(formData);
+    console.log($(this));
+    console.log("Form data:", formData);
 
     $.ajax({
       url: '/users/login',
       method: 'POST',
       data: formData,
-    }).then( () => {
-      // What to do with return
+    }).then( (data, status) => {
+      if(status === 'success') {
+        $(this).toggle();
+        $('.nav-login, .nav-register, .logout').toggle();
+      }
     });
   });
 
-  $('.logout').submit(function(event) {
+  $('.logout').submit( function(event) {
     event.preventDefault();
 
     $.ajax({
       url: '/users/logout',
       method: 'POST',
     }).then( () => {
-      // What to do with return
+      $(this).toggle();
+      $('.nav-login, .nav-register').toggle();
     });
   });
 });
