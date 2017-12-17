@@ -30,5 +30,20 @@ module.exports = function makeDataHelpers(db) {
         callback(null, true);
     },
 
+    registerUser: function(user, cb) {
+      db.collection('users').find({$or: [{ email: user.email }, { handle: user.handle }]}).toArray()
+        .then( (err, data) => {
+          if(data.length > 0) {
+            cb(null, false);
+          } else {
+            db.collection('users').insert(user);
+            cb(null, true);
+          }
+        });
+    },
+
+    loginUser: function() {
+
+    }
   };
 };

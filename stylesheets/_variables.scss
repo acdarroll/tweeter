@@ -38,3 +38,8 @@ $error-red: #FFDDDD;
   word-wrap: break-word;
 }
 
+@mixin buttons {
+  border-radius: 8px;
+  border: 1px solid black;
+  padding: 10px;
+}

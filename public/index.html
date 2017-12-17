@@ -23,6 +23,9 @@
     <!-- Char counter JS -->
     <script type="text/javascript" src="/scripts/composer-char-counter.js"></script>
 
+    <!-- Char counter JS -->
+    <script type="text/javascript" src="/scripts/register.js"></script>
+
     <!-- App JS -->
     <script type="text/javascript" src="/scripts/app.js"></script>
   </head>
@@ -38,6 +41,16 @@
 
     <!-- Page-specific (main) content here -->
     <main class="container">
+
+      <!-- Register and login form -->
+      <form class="register" action="/users/register" method="POST">
+        <input type="text" name="firstName" value="And" placeholder="First">
+        <input type="text" name="lastName" value="Car" placeholder="Last">
+        <input type="text" name="handle" value="@ac" placeholder="@Handle">
+        <input type="email" name="email" value="ajc@gmail.com" placeholder="Email">
+        <input type="password" name="password" placeholder="Password">
+        <input type="submit" name="login" value="Register">
+      </form>
 
       <!-- Container for the new tweet form -->
       <section class="new-tweet">

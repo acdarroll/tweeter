@@ -4,6 +4,8 @@
 
 // Nav bar banner fixed to top of page
 nav {
+  display: flex;
+  align-items: center;
   position: fixed;
   height: $nav-height;
   width: 100%;
@@ -18,34 +20,24 @@ nav {
   img {
     width: $nav-height;
     height: $nav-height;
-    float: left;
+    // float: left;
   }
 
   // "Tweeter" header
   p {
     font-size: 200%;
     line-height: 0.5em;
-    float: left;
+    // float: left;
   }
 
   // Compose button and its hover state
-  button {
-    height: $nav-height - 20;
-    margin: 10px 20px;
-    border-radius: 10px;
-    border: 1px solid black;
-    background-color: $translucent-white;
+  button, input {
+    @include buttons;
     color: $nav-background;
-    float: right;
+    // float: right;
   }
 
-  button:hover {
-    background-color: white;
+  button:hover, input:hover {
     color: black;
   }
 }
-
-
-
-
-
