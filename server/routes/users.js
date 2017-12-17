@@ -48,17 +48,18 @@ module.exports = function(DataHelpers) {
           email,
           password: bcrypt.hashSync(password, 10)
         };
-        DataHelpers.registerUser(user, (err, success) => {
+        DataHelpers.registerUser(user, (err, user) => {
           if (err) {
             res.status(500).json({ error: err.message });
-          } else if(success) {
+          } else if(user) {
             console.log("User registered");
+            req.session.userId = user['_id'];
             // Handle success case of adding user to database
             res.status(201).send();
           } else {
             console.log("Error registering");
             // Handle failure to add user
-            res.status(201).send();
+            res.status(302).send();
           }
         });
       }

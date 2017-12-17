@@ -32,9 +32,10 @@ body {
 
   > div {
     margin-top: $nav-height;
-    background-color: lightgrey;
+    background-color: $nav-lighter;
 
     form {
+      padding: 10px;
       display: none;
     }
 

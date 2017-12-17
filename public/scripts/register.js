@@ -4,6 +4,12 @@
 
 $(document).ready( () => {
 
+  const formReset = function() {
+    $(this).trigger('reset');
+    $(this).toggle();
+    $('.nav-login, .nav-register, .logout').toggle();
+  };
+
   const registerUser = function(event) {
     event.preventDefault();
     let formData = $(this).serialize();
@@ -13,9 +19,7 @@ $(document).ready( () => {
       url: '/users/register',
       method: 'POST',
       data: formData,
-    }).then( () => {
-      // What to do with return
-    });
+    }).then(formReset.call($(this)));
   };
 
   const loginUser = function(event) {
@@ -30,8 +34,8 @@ $(document).ready( () => {
       data: formData,
     }).then( (data, status) => {
       if(status === 'success') {
-        $(this).toggle();
-        $('.nav-login, .nav-register, .logout').toggle();
+        console.log("Success");
+        formReset.call($(this));
       }
     });
   };

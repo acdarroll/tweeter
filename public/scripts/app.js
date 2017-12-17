@@ -170,8 +170,9 @@ $(document).ready( () => {
       $('#tweets-container').empty();   // Remove all existing tweet elements before appending those
       renderTweets(data.tweets);        // retrieved from the database.
       $('.hover-icons').click(handleTweetLike);
-      if(data.user['_id']) {
-        $('.nav-login, .nav-register, .nav-logout').toggle();
+      console.log(data)
+      if(data.user[0]) {
+        $('.nav-login, .nav-register, .logout').toggle();
       }
     });
 

@@ -48,8 +48,9 @@ module.exports = function makeDataHelpers(db) {
         if(data.length > 0) {
           cb(null, false);
         } else {
-          db.collection('users').insert(user);
-          cb(null, true);
+          db.collection('users').insert(user, (err, user) => {
+          cb(null, user);
+        });
         }
       });
     },
