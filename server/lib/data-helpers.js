@@ -10,8 +10,19 @@ module.exports = function makeDataHelpers(db) {
 
     // Saves a tweet to `db`
     saveTweet: function(newTweet, callback) {
+      console.log("Before search:", newTweet);
+      db.collection('users').find({
+        _id: ObjectId(newTweet.user.id)
+      }).toArray().then( (user) => {
+        console.log("After search:", user);
+        newTweet.user.name = `${user[0].firstName} ${user[0].lastName}`;
+        newTweet.user.handle = user[0].handle;
+        delete newTweet.user.id;
+        console.log("New tweet:", newTweet);
         db.collection('tweets').insert(newTweet);
+      }).then( () => {
         callback(null, true);
+      });
     },
 
     getUser: function(userId) {
@@ -21,14 +32,6 @@ module.exports = function makeDataHelpers(db) {
     // Get all tweets in `db`
     getTweets: function() {
         return db.collection('tweets').find().toArray();
-        // .then((result) => {
-          // let tweets = result.toArray();
-          // return tweets.sort(sortNewestFirst);
-        // });
-        // (err, tweets) => {
-          // console.log(tweets);
-          // cb(null, tweets.sort(sortNewestFirst));
-        // });
     },
 
     // Save the updated likes to the database
@@ -44,12 +47,11 @@ module.exports = function makeDataHelpers(db) {
       db.collection('users').find({
         $or: [{ email: user.email }, { handle: user.handle }]
       }).toArray((err, data) => {
-        console.log("Register data:", data);
         if(data.length > 0) {
           cb(null, false);
         } else {
           db.collection('users').insert(user, (err, user) => {
-          cb(null, user);
+            cb(null, user);
         });
         }
       });

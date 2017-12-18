@@ -4,6 +4,32 @@
 
 $(document).ready( () => {
 
+  const getUserHandle = function() {
+    let handle = "";
+    return $.ajax({
+        url: '/users',
+        method: 'GET',
+        dataType: 'JSON'
+      }).then( (data) => {
+        if(data.handle) {
+          handle = data.handle;
+        }
+        return handle;
+      });
+  };
+
+  const checkForUser = function() {
+    getUserHandle().then((handle) => {
+      if(handle) {
+        $('.login-handle').text(handle);
+        $('.logout, .compose-button').toggle();
+      } else {
+        $('.nav-login, .nav-register').toggle();
+      }
+    });
+  };
+  checkForUser();
+
   const formReset = function() {
     $(this).trigger('reset');
     $(this).toggle();
@@ -13,20 +39,20 @@ $(document).ready( () => {
   const registerUser = function(event) {
     event.preventDefault();
     let formData = $(this).serialize();
-    console.log(formData);
 
     $.ajax({
       url: '/users/register',
       method: 'POST',
       data: formData,
-    }).then(formReset.call($(this)));
+    }).then( (user) => {
+      $('.login-handle').text(user.handle);
+      formReset.call($(this));
+    });
   };
 
   const loginUser = function(event) {
     event.preventDefault();
     let formData = $(this).serialize();
-    console.log($(this));
-    console.log("Form data:", formData);
 
     $.ajax({
       url: '/users/login',
@@ -34,8 +60,9 @@ $(document).ready( () => {
       data: formData,
     }).then( (data, status) => {
       if(status === 'success') {
-        console.log("Success");
         formReset.call($(this));
+        $('.compose-button').toggle();
+        $('.login-handle').text(data.handle);
       }
     });
   };
@@ -48,12 +75,12 @@ $(document).ready( () => {
       method: 'POST',
     }).then( () => {
       $(this).toggle();
-      $('.nav-login, .nav-register').toggle();
+      $('.nav-login, .nav-register, .compose-button').toggle();
+      $('.login-handle').empty();
     });
   };
 
   $('.nav-login, .nav-register').click( function(event) {
-    console.log("Target:", event);
     let $targetForm, $otherForm;
     if($(this).text() === 'Login') {
       $targetForm = $('.login');

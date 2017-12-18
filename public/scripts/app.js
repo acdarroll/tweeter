@@ -165,15 +165,10 @@ $(document).ready( () => {
       url: '/tweets',
       method: 'GET',
       dataType: 'JSON'
-    }).then( (data) => {
-      console.log(data);
+    }).then( (tweets) => {
       $('#tweets-container').empty();   // Remove all existing tweet elements before appending those
-      renderTweets(data.tweets);        // retrieved from the database.
+      renderTweets(tweets);             // retrieved from the database.
       $('.hover-icons').click(handleTweetLike);
-      console.log(data)
-      if(data.user[0]) {
-        $('.nav-login, .nav-register, .logout').toggle();
-      }
     });
 
   };

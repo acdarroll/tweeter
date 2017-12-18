@@ -72,17 +72,11 @@ body {
  * Additional CSS can be defined below or in other CSS files, as per instructions
  */
 
-main {
-  width: 60%;
-  margin: 0 auto 0 auto;
-  background-color: white;
-  padding-bottom: 50px;
-}
-
 @media (max-width: 700px) {
   main {
     width: 420px;
   }
+
 }
 
 @media (min-width: 700px) {

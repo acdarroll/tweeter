@@ -6,6 +6,20 @@ const bcrypt        = require('bcrypt');
 
 module.exports = function(DataHelpers) {
 
+  usersRoutes.get("/", (req, res) => {
+    let { userId } = req.session;
+    let handle = '';
+    if(userId) {
+      DataHelpers.getUser(userId).then((user) => {
+        res.json({ handle: user[0].handle});
+      }).catch( (err) => {
+        res.statu(500).json({ error: err.message });
+      });
+    } else {
+      res.json({ handle: "" });
+    }
+  });
+
 // Login, logout, and registering
   usersRoutes.post("/login", (req, res) => {
     let { email, password } = req.body;
@@ -16,11 +30,9 @@ module.exports = function(DataHelpers) {
       DataHelpers.loginUser(user).then((result) => {
         if(result.length > 0 && bcrypt.compareSync(user.password, result[0].password)) {
 
-          console.log("Logged in");
           req.session.userId = result[0]['_id'];
-          res.status(201).send();
+          res.status(201).json({ handle: result[0].handle});
         } else {
-          console.log("Failed to log in");
           // Handle success case of logging in
           res.status(302).send();
         }
@@ -48,16 +60,14 @@ module.exports = function(DataHelpers) {
           email,
           password: bcrypt.hashSync(password, 10)
         };
-        DataHelpers.registerUser(user, (err, user) => {
+        DataHelpers.registerUser(user, (err, newUser) => {
           if (err) {
             res.status(500).json({ error: err.message });
-          } else if(user) {
-            console.log("User registered");
+          } else if(newUser) {
             req.session.userId = user['_id'];
             // Handle success case of adding user to database
-            res.status(201).send();
+            res.status(201).json({ handle: newUser.handle });
           } else {
-            console.log("Error registering");
             // Handle failure to add user
             res.status(302).send();
           }

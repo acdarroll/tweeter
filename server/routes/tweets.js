@@ -22,29 +22,11 @@ module.exports = function(DataHelpers) {
     const sortNewestFirst = (a, b) => a.created_at - b.created_at;
     DataHelpers.getTweets().then((result) => {
       tweets = result.sort(sortNewestFirst);
-      return DataHelpers.getUser(userId);
-    }).then((user) => {
       timeDifference(tweets);
-      let userAndTweets = { user, tweets };
-      if(user.length > 0) {
-        console.log("Still logged in");
-        res.json(userAndTweets);
-      } else {
-        console.log("Visitor needs to login");
-        res.json(userAndTweets);
-      }
+      res.json(tweets);
     }).catch((err) => {
       res.status(500).json({ error: err.message });
     });
-
-    // });
-    // (err, tweets) => {
-      // if (err) {
-        // res.status(500).json({ error: err.message });
-      // } else {
-        // timeDifference(tweets);
-
-      // }
   });
 
   // Like handling
@@ -73,6 +55,7 @@ module.exports = function(DataHelpers) {
     }
 
     const user = req.body.user ? req.body.user : userHelper.generateRandomUser();
+    user.id = req.session.userId;
     const tweet = {
       user: user,
       content: {

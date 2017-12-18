@@ -5,7 +5,7 @@
 // Nav bar banner fixed to top of page
 nav {
   display: flex;
-  align-items: center;
+  justify-content: space-between;
   position: fixed;
   height: $nav-height;
   width: 100%;
@@ -16,32 +16,42 @@ nav {
   z-index: 1;
   box-shadow: 0 4px 4px -2px #005555;
 
+  div{
+    display: flex;
+    align-items: center;
+  }
   // Tweeter logo
   img {
     width: $nav-height;
     height: $nav-height;
-    // float: left;
   }
 
   // "Tweeter" header
   p {
     font-size: 200%;
     line-height: 0.5em;
-    // float: left;
+    margin-right: 10px;
   }
 
   // Compose button and its hover state
-  button, input {
+  input {
     @include buttons;
     color: $nav-background;
-    // float: right;
+  }
+
+  button {
+    align-self: top;
+    @extend input;
+    display: none;
+    margin-right: 10px;
+  }
+
+  form {
+    margin-right: 10px;
+    display: none;
   }
 
   button:hover, input:hover {
     color: black;
-  }
-
-  form {
-    display: none;
   }
 }
