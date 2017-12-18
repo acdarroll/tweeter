@@ -77,6 +77,7 @@ $(document).ready( () => {
       $(this).toggle();
       $('.nav-login, .nav-register, .compose-button').toggle();
       $('.login-handle').empty();
+      $('.new-tweet').hide();
     });
   };
 
