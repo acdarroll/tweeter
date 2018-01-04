@@ -58,12 +58,13 @@ $(document).ready( () => {
       url: '/users/login',
       method: 'POST',
       data: formData,
+      success: function(response) { window.location.href = "/"; }
     }).then( (data, status) => {
-      if(status === 'success') {
-        formReset.call($(this));
-        $('.compose-button').toggle();
-        $('.login-handle').text(data.handle);
-      }
+      // if(status === 'success') {
+      //   formReset.call($(this));
+      //   $('.compose-button').toggle();
+      //   $('.login-handle').text(data.handle);
+      // }
     });
   };
 
@@ -73,6 +74,7 @@ $(document).ready( () => {
     $.ajax({
       url: '/users/logout',
       method: 'POST',
+      success: function(response) { window.location.href = "/"; }
     }).then( () => {
       $(this).toggle();
       $('.nav-login, .nav-register, .compose-button').toggle();

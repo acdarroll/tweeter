@@ -7,10 +7,20 @@ const tweetsRoutes  = express.Router();
 
 const timeDifference = function(tweets) {
   let withInterval = tweets.map( (user) => {        // Calculate the elapsed time server side to avoid
-    let userWithInterval = user;                    // inconsistencies
-    user.interval = Date.now() - user.created_at;
-    return userWithInterval;
+    user.interval = Date.now() - user.created_at;   // inconsistencies
+    return user;
   });
+  return withInterval;
+};
+
+const likedTweets = function(tweets, userId) {
+  let likedTweets = tweets.map( (user) => {
+    if(user.likes) {
+      user.liked = user.likes.indexOf(userId) > -1;
+    }
+    return user;
+  });
+  return likedTweets;
 };
 
 module.exports = function(DataHelpers) {
@@ -22,7 +32,8 @@ module.exports = function(DataHelpers) {
     const sortNewestFirst = (a, b) => a.created_at - b.created_at;
     DataHelpers.getTweets().then((result) => {
       tweets = result.sort(sortNewestFirst);
-      timeDifference(tweets);
+      tweets = timeDifference(tweets);
+      tweets = likedTweets(tweets, userId);
       res.json(tweets);
     }).catch((err) => {
       res.status(500).json({ error: err.message });
@@ -32,13 +43,18 @@ module.exports = function(DataHelpers) {
   // Like handling
   tweetsRoutes.post("/:id", (req, res) => {
     if (!req.body.id) {
-      res.status(400).json({ error: 'invalid request: no data in POST body'});
+      res.status(400).send("Bad request: no tweet id in POST body");
+      return;
+    }
+    const userId = req.session.userId;
+    if (!userId) {
+      res.status(401).send("Unauthorized: must be logged in to like a tweet");
       return;
     }
 
     const newLike = Object.assign( {}, req.body );
 
-    DataHelpers.saveLike(newLike, (err) => {
+    DataHelpers.saveLike(userId, newLike, (err) => {
       if (err) {
         res.status(500).json({ error: err.message });
       } else {
@@ -50,7 +66,11 @@ module.exports = function(DataHelpers) {
 
   tweetsRoutes.post("/", (req, res) => {
     if (!req.body.text) {
-      res.status(400).json({ error: 'invalid request: no data in POST body'});
+      res.status(400).send("Bad request: no data in POST body");
+      return;
+    }
+    if (!req.session.userId) {
+      res.status(401).send("Unauthorized: must be logged in to post tweets");
       return;
     }
 

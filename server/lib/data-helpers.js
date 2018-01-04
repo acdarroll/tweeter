@@ -10,15 +10,12 @@ module.exports = function makeDataHelpers(db) {
 
     // Saves a tweet to `db`
     saveTweet: function(newTweet, callback) {
-      console.log("Before search:", newTweet);
       db.collection('users').find({
         _id: ObjectId(newTweet.user.id)
       }).toArray().then( (user) => {
-        console.log("After search:", user);
         newTweet.user.name = `${user[0].firstName} ${user[0].lastName}`;
         newTweet.user.handle = user[0].handle;
         delete newTweet.user.id;
-        console.log("New tweet:", newTweet);
         db.collection('tweets').insert(newTweet);
       }).then( () => {
         callback(null, true);
@@ -31,16 +28,32 @@ module.exports = function makeDataHelpers(db) {
 
     // Get all tweets in `db`
     getTweets: function() {
-        return db.collection('tweets').find().toArray();
+      return db.collection('tweets').find().toArray();
     },
 
     // Save the updated likes to the database
-    saveLike: function(newLike, callback) {
-        db.collection('tweets').update(
-          { _id: ObjectId(newLike.id) },
-          { $set: { likes: newLike.likes }},
-          { upsert: true });
-        callback(null, true);
+    saveLike: function(userId, newLike, callback) {
+        db.collection('tweets').find({ _id: ObjectId(newLike.id) }).toArray((err, data) => {
+          console.log("data from saveLike:", data);
+          if(!data[0].likes || data[0].likes.indexOf(userId) === -1) {
+            db.collection('tweets').update(
+              { _id: ObjectId(newLike.id) },
+              { $push: { likes: userId } },
+              { upsert: true },
+              function(err, results) {
+                callback(null, true);
+              });
+
+            callback(null, true);
+          } else {
+            db.collection('tweets').update(
+              { _id: ObjectId(newLike.id) },
+              { $pull: { likes: userId } },
+              function(err, results) {
+                callback(null, true);
+              });
+          }
+        });
     },
 
     registerUser: function(user, cb) {

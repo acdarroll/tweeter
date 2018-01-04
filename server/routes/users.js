@@ -13,7 +13,7 @@ module.exports = function(DataHelpers) {
       DataHelpers.getUser(userId).then((user) => {
         res.json({ handle: user[0].handle});
       }).catch( (err) => {
-        res.statu(500).json({ error: err.message });
+        res.status(500).json({ error: err.message });
       });
     } else {
       res.json({ handle: "" });

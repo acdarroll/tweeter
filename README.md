@@ -27,8 +27,14 @@ Hover effects for tweets
 
 1. Fork this repository, then clone your fork of this repository.
 2. Install dependencies using the `npm install` command.
-3. Start the web server using the `npm run local` command. The app will be served at <http://localhost:8080/>.
-4. Go to <http://localhost:8080/> in your browser.
+3. Create the Tweeter database on MongoDB by running the following commands
+  - `mongo`
+  - `use tweeter`
+4. Create a .env file and add the following keys:
+  - MONGODB_URI=mongodb://127.0.0.1:27017/tweeter
+  - COOKIE_TOKEN=<some string>
+5. Start the web server using the `npm run local` command. The app will be served at <http://localhost:8080/>.
+6. Go to <http://localhost:8080/> in your browser.
 
 There will be no tweets when you run the server for the first time.
 Click the compose button to toggle the input form.
@@ -39,8 +45,8 @@ Click the compose button to toggle the input form.
 - Node 5.10.x or above
 - Body Parser
 - Chance
-- Express
-- Md5
-- Mongodb
+- Express - router
+- Md5 - hash usernames into vanillicon image urls
+- Mongodb - document database
 
 

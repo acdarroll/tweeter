@@ -60,8 +60,11 @@ $(document).ready( () => {
   const createTweetElement = function(data) {
     let daysAgo = formateElapsedTime(data.interval);
 
-    if(!data.likes) {                                // Handle tweets that don't have the likes property yet
-      data.likes = 0;
+    let likes;
+    if(!data.likes || data.likes.length === 0) {    // Handle tweets that don't have the likes property yet
+      likes = 0;
+    } else {
+      likes = data.likes.length;
     }
 
     let $article =                                  // Create the new tweet element with template literal
@@ -78,12 +81,12 @@ $(document).ready( () => {
             <span class="fas fa-flag"></span>
             <span class="fas fa-retweet"></span>
             <span class="fas fa-heart"></span>
-            <span class="likes">${data.likes}</span>
+            <span class="likes">${likes}</span>
           </div>
         </footer>
       </article>`);
 
-    if (parseInt(data.likes) > 0) {
+    if (data.liked) {
       let icons = $article.find('[data-tweet-id]');
       icons.addClass('liked');
     }
