@@ -176,6 +176,66 @@ $(document).ready( () => {
 
   };
 
+  const registerUser = function(event) {
+    event.preventDefault();
+    let formData = $(this).serialize();
+
+    $.ajax({
+      url: '/users/register',
+      method: 'POST',
+      data: formData,
+      success: function() {
+        $('.login-handle').text(user.handle);
+        formReset.call($(this));
+      }
+    });
+  };
+
+  const loginUser = function(event) {
+    event.preventDefault();
+    let formData = $(this).serialize();
+
+    $.ajax({
+      url: '/users/login',
+      method: 'POST',
+      data: formData,
+      success: function() {
+        loadTweets();
+        if(status === 'success') {
+          formReset.call($(this));
+          $('.compose-button').toggle();
+          $('.login-handle').text(data.handle);
+        }
+      }
+    });
+  };
+
+  const logoutUser = function(event) {
+    event.preventDefault();
+
+    $.ajax({
+      url: '/users/logout',
+      method: 'POST',
+      success: function() {
+        loadTweets();
+        $(this).toggle();
+        $('.nav-login, .nav-register, .compose-button').toggle();
+        $('.login-handle').empty();
+        $('.new-tweet').hide();
+      }
+    });
+  };
+
+  const formReset = function() {
+    $(this).trigger('reset');
+    $(this).toggle();
+    $('.nav-login, .nav-register, .logout').toggle();
+  };
+
+  $('.register').submit(registerUser);  // Event listeners for form submissions
+  $('.login').submit(loginUser);
+  $('.logout').submit(logoutUser);
+
   // Load tweets on initial visit to page
   loadTweets();
 });

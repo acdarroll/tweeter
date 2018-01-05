@@ -30,59 +30,6 @@ $(document).ready( () => {
   };
   checkForUser();
 
-  const formReset = function() {
-    $(this).trigger('reset');
-    $(this).toggle();
-    $('.nav-login, .nav-register, .logout').toggle();
-  };
-
-  const registerUser = function(event) {
-    event.preventDefault();
-    let formData = $(this).serialize();
-
-    $.ajax({
-      url: '/users/register',
-      method: 'POST',
-      data: formData,
-    }).then( (user) => {
-      $('.login-handle').text(user.handle);
-      formReset.call($(this));
-    });
-  };
-
-  const loginUser = function(event) {
-    event.preventDefault();
-    let formData = $(this).serialize();
-
-    $.ajax({
-      url: '/users/login',
-      method: 'POST',
-      data: formData,
-      success: function(response) { window.location.href = "/"; }
-    }).then( (data, status) => {
-      // if(status === 'success') {
-      //   formReset.call($(this));
-      //   $('.compose-button').toggle();
-      //   $('.login-handle').text(data.handle);
-      // }
-    });
-  };
-
-  const logoutUser = function(event) {
-    event.preventDefault();
-
-    $.ajax({
-      url: '/users/logout',
-      method: 'POST',
-      success: function(response) { window.location.href = "/"; }
-    }).then( () => {
-      $(this).toggle();
-      $('.nav-login, .nav-register, .compose-button').toggle();
-      $('.login-handle').empty();
-      $('.new-tweet').hide();
-    });
-  };
-
   $('.nav-login, .nav-register').click( function(event) {
     let $targetForm, $otherForm;
     if($(this).text() === 'Login') {
@@ -97,11 +44,5 @@ $(document).ready( () => {
     }
     $targetForm.toggle();
   });
-
-  $('.register').submit(registerUser);
-
-  $('.login').submit(loginUser);
-
-  $('.logout').submit(logoutUser);
 
 });
